@@ -40,12 +40,28 @@ st.markdown("""
         button {
             font-size: 1.1rem !important;
         }
+    
     }
 
     /* Optional: Reduce padding/margins on small screens for more space */
     @media (max-width: 480px) {
         .stApp > div:first-child {
             padding: 1rem !important;
+        }
+    }
+    /* Target the main page title from st.title() */
+        .stApp h1 {
+            font-size: 1.8rem !important;   /* Adjust this value */
+            /* Optional extras: */
+            /* margin-bottom: 1rem; */
+            /* text-align: center; */
+            /* color: #333; */
+        }
+
+    /* If you want it even smaller on mobile */
+    @media (max-width: 768px) {
+        .stApp h1 {
+            font-size: 1.8rem !important;   /* Smaller on phones */
         }
     }
     </style>
@@ -71,7 +87,7 @@ if 'running' not in st.session_state:
     st.session_state.splits = []  
     st.session_state.selected = set()  
 
-st.title("Stopwatch with Splits & Sum")
+st.title("Stopwatch with Splits for Cheerleading Judging")
 
 # Timer display
 current_time = st.session_state.elapsed if not st.session_state.running else (time.time() - st.session_state.start_time) + st.session_state.elapsed
@@ -126,7 +142,7 @@ if st.session_state.splits:
             else:
                 st.session_state.selected.discard(i)
         with col_text:
-            st.markdown(f"<div class='split-text'>#{i+1:2d}   {format_time(dur):>8}   (cum {format_time(cum):>8})</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='split-text'>#{i+1:2d}   {format_time(dur):>8}   (total {format_time(cum):>8})</div>", unsafe_allow_html=True)
 
     if st.session_state.selected:
         total_selected = sum(st.session_state.splits[i][0] for i in st.session_state.selected)
