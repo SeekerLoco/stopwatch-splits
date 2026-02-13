@@ -5,49 +5,54 @@ from datetime import timedelta
 # Inject responsive CSS (your existing + improvements)
 st.markdown("""
     <style>
-    /* Default font sizes (desktop/large screens) */
+    /* Your existing base styles (keep these) */
     .stApp {
-        font-size: 12px;  /* Base body text */
+        font-size: 12px;
     }
     h1 {
-        font-size: 4rem !important;  /* Timer ~64px */
+        font-size: 4rem !important;
     }
     .split-text {
-        font-size: 1.2rem;  /* Splits list items */
+        font-size: 1.2rem;
     }
     .sum-text {
         font-size: 1.2rem;
     }
 
-    /* Button styling */
     button {
         font-size: 1.2rem !important;
         min-height: 50px !important;
-        border-radius: 8px !important;  /* Optional: softer corners */
+        border-radius: 8px !important;
     }
 
-    /* Start button: green when not running */
-    button[kind="secondary"] {
-        background-color: #28a745 !important;  /* Bootstrap-like green */
+    /* Make ONLY the Start/Stop button green when it's "Start" (secondary) */
+    div:has(> button:contains("Start")) button[kind="secondary"],
+    div:has(> button:contains("Start")) button {
+        background-color: #28a745 !important;  /* Green */
         color: white !important;
         border: none !important;
     }
-    button[kind="secondary"]:hover {
-        background-color: #218838 !important;  /* Darker green on hover */
-        color: white !important;
+    div:has(> button:contains("Start")) button:hover {
+        background-color: #218838 !important;  /* Darker green hover */
     }
 
-    /* Stop button: red when running (overrides primary) */
+    /* Keep Stop red when running (primary) */
     button[kind="primary"] {
         background-color: #dc3545 !important;  /* Red */
         color: white !important;
         border: none !important;
     }
     button[kind="primary"]:hover {
-        background-color: #c82333 !important;  /* Darker red on hover */
+        background-color: #c82333 !important;
     }
 
-    /* Mobile/small screens: shrink text to reduce scrolling */
+    /* Reset other secondary buttons (Split, Clear) to default Streamlit look */
+    button[kind="secondary"]:not(:has(> button:contains("Start"))) {
+        background-color: inherit !important;
+        color: inherit !important;
+    }
+
+    /* Your mobile styles (unchanged) */
     @media (max-width: 768px) {
         .stApp {
             font-size: 14px;
@@ -66,14 +71,13 @@ st.markdown("""
         }
     }
 
-    /* Optional: Reduce padding/margins on small screens */
     @media (max-width: 480px) {
         .stApp > div:first-child {
             padding: 1rem !important;
         }
     }
 
-    /* Target the main page title from st.title() */
+    /* Title styling */
     .stApp h1 {
         font-size: 1.8rem !important;
     }
