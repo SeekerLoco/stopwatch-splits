@@ -13,13 +13,13 @@ st.markdown("""
         font-size: 4rem !important;  /* Timer ~64px */
     }
     .split-text {
-        font-size: 0.8rem;  /* Splits list items */
+        font-size: 1.2rem;  /* Splits list items */
     }
     .sum-text {
         font-size: 1.2rem;
     }
     button {
-        font-size: 1.0rem !important;  /* Buttons stay readable/tappable */
+        font-size: 1.2rem !important;  /* Buttons stay readable/tappable */
         min-height: 50px !important;
     }
 
