@@ -22,7 +22,7 @@ if 'running' not in st.session_state:
     st.session_state.splits = []  # list of (split_duration, cum_time)
     st.session_state.selected = set()  # indices of selected splits
 
-st.title("Stopwatch with Splits & Sum")
+st.title("Cheerleading Competition Stopwatch")
 
 # Large timer display
 current_time = st.session_state.elapsed if not st.session_state.running else (time.time() - st.session_state.start_time) + st.session_state.elapsed
