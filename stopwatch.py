@@ -2,7 +2,56 @@ import streamlit as st
 import time
 from datetime import timedelta
 
-# Helper to format time (mm:ss.hh or hh:mm:ss.hh)
+# Inject responsive CSS
+st.markdown("""
+    <style>
+    /* Default font sizes (desktop/large screens) */
+    .stApp {
+        font-size: 16px;  /* Base body text */
+    }
+    h1 {
+        font-size: 4rem !important;  /* Timer ~64px */
+    }
+    .split-text {
+        font-size: 1.1rem;  /* Splits list items */
+    }
+    .sum-text {
+        font-size: 1.4rem;
+    }
+    button {
+        font-size: 1.2rem !important;  /* Buttons stay readable/tappable */
+        min-height: 50px !important;
+    }
+
+    /* Mobile/small screens: shrink text to reduce scrolling */
+    @media (max-width: 768px) {
+        .stApp {
+            font-size: 14px;
+        }
+        h1 {
+            font-size: 3rem !important;  /* Timer ~48px, still big but less overwhelming */
+        }
+        .split-text {
+            font-size: 0.95rem;  /* Smaller splits text */
+        }
+        .sum-text {
+            font-size: 1.2rem;
+        }
+        button {
+            font-size: 1.1rem !important;
+        }
+    }
+
+    /* Optional: Reduce padding/margins on small screens for more space */
+    @media (max-width: 480px) {
+        .stApp > div:first-child {
+            padding: 1rem !important;
+        }
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Helper format_time (unchanged)
 def format_time(seconds: float) -> str:
     td = timedelta(seconds=seconds)
     total_sec = int(td.total_seconds())
@@ -14,30 +63,28 @@ def format_time(seconds: float) -> str:
         return f"{hours:02d}:{minutes:02d}:{secs:02d}.{hundredths:02d}"
     return f"{minutes:02d}:{secs:02d}.{hundredths:02d}"
 
-# Initialize session state
+# Session state init (unchanged)
 if 'running' not in st.session_state:
     st.session_state.running = False
     st.session_state.start_time = 0.0
     st.session_state.elapsed = 0.0
-    st.session_state.splits = []  # list of (split_duration, cum_time)
-    st.session_state.selected = set()  # indices of selected splits
+    st.session_state.splits = []  
+    st.session_state.selected = set()  
 
-st.title("Cheerleading Competition Stopwatch")
+st.title("Stopwatch with Splits & Sum")
 
-# Large timer display
+# Timer display
 current_time = st.session_state.elapsed if not st.session_state.running else (time.time() - st.session_state.start_time) + st.session_state.elapsed
-st.markdown(f"<h1 style='text-align: center; font-size: 4em;'>{format_time(current_time)}</h1>", unsafe_allow_html=True)
+st.markdown(f"<h1 style='text-align: center;'>{format_time(current_time)}</h1>", unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
     if st.button("Start" if not st.session_state.running else "Stop", use_container_width=True, type="primary" if st.session_state.running else "secondary"):
         if not st.session_state.running:
-            # Start/resume
             st.session_state.start_time = time.time() - st.session_state.elapsed
             st.session_state.running = True
         else:
-            # Stop: add final split
             now = time.time()
             cum = now - st.session_state.start_time
             last_cum = st.session_state.splits[-1][1] if st.session_state.splits else 0
@@ -66,7 +113,7 @@ with col3:
         st.session_state.selected = set()
         st.rerun()
 
-# Splits list with checkboxes
+# Splits list - smaller text via class
 if st.session_state.splits:
     st.subheader("Splits")
     total_selected = 0.0
@@ -79,15 +126,15 @@ if st.session_state.splits:
             else:
                 st.session_state.selected.discard(i)
         with col_text:
-            st.write(f"#{i+1:2d}   {format_time(dur):>8}   (cum {format_time(cum):>8})")
+            st.markdown(f"<div class='split-text'>#{i+1:2d}   {format_time(dur):>8}   (cum {format_time(cum):>8})</div>", unsafe_allow_html=True)
 
     if st.session_state.selected:
         total_selected = sum(st.session_state.splits[i][0] for i in st.session_state.selected)
-        st.success(f"Selected splits total: **{format_time(total_selected)}**")
+        st.markdown(f"<div class='sum-text'>Selected splits total: **{format_time(total_selected)}**</div>", unsafe_allow_html=True)
     else:
         st.info("Tap checkboxes to select splits and sum them.")
 
-# Auto-update timer while running
+# Auto-rerun for timer
 if st.session_state.running:
-    time.sleep(0.1)  # Adjust for smoother/faster updates (0.05-0.2)
+    time.sleep(0.1)
     st.rerun()
