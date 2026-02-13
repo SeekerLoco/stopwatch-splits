@@ -7,19 +7,19 @@ st.markdown("""
     <style>
     /* Default font sizes (desktop/large screens) */
     .stApp {
-        font-size: 16px;  /* Base body text */
+        font-size: 12px;  /* Base body text */
     }
     h1 {
         font-size: 4rem !important;  /* Timer ~64px */
     }
     .split-text {
-        font-size: 1.1rem;  /* Splits list items */
+        font-size: 0.8rem;  /* Splits list items */
     }
     .sum-text {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
     }
     button {
-        font-size: 1.2rem !important;  /* Buttons stay readable/tappable */
+        font-size: 1.0rem !important;  /* Buttons stay readable/tappable */
         min-height: 50px !important;
     }
 
