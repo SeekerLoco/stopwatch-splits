@@ -2,7 +2,7 @@ import streamlit as st
 import time
 from datetime import timedelta
 
-# Inject responsive CSS
+# Inject responsive CSS (your existing + improvements)
 st.markdown("""
     <style>
     /* Default font sizes (desktop/large screens) */
@@ -14,25 +14,36 @@ st.markdown("""
     }
     .split-text {
         font-size: 1.2rem;  /* Splits list items */
+        font-weight: 500;   /* Slightly bolder for clarity */
+        padding-left: 8px;  /* Small indent so text doesn't touch checkbox/edge */
     }
     .sum-text {
         font-size: 1.2rem;
     }
     button {
-        font-size: 1.2rem !important;  /* Buttons stay readable/tappable */
+        font-size: 1.2rem !important;
         min-height: 50px !important;
     }
 
-    /* Mobile/small screens: shrink text to reduce scrolling */
+    /* Make checkboxes larger and easier to tap on mobile */
+    .stCheckbox input {
+        transform: scale(1.4);   /* Bigger checkbox */
+    }
+    .stCheckbox {
+        margin-bottom: 0 !important;
+    }
+
+    /* Mobile/small screens: shrink text, add row separation */
     @media (max-width: 768px) {
         .stApp {
             font-size: 14px;
         }
         h1 {
-            font-size: 3rem !important;  /* Timer ~48px, still big but less overwhelming */
+            font-size: 3rem !important;
         }
         .split-text {
-            font-size: 0.95rem;  /* Smaller splits text */
+            font-size: 1.0rem;
+            padding-left: 12px;
         }
         .sum-text {
             font-size: 1.2rem;
@@ -40,28 +51,20 @@ st.markdown("""
         button {
             font-size: 1.1rem !important;
         }
-    
-    }
-
-    /* Optional: Reduce padding/margins on small screens for more space */
-    @media (max-width: 480px) {
-        .stApp > div:first-child {
-            padding: 1rem !important;
+        /* Add visual separation between stacked rows */
+        .split-row-divider {
+            border-top: 1px solid #ddd;
+            margin: 12px 0 8px 0;
         }
     }
-    /* Target the main page title from st.title() */
-        .stApp h1 {
-            font-size: 1.8rem !important;   /* Adjust this value */
-            /* Optional extras: */
-            /* margin-bottom: 1rem; */
-            /* text-align: center; */
-            /* color: #333; */
-        }
 
-    /* If you want it even smaller on mobile */
+    /* Title styling */
+    .stApp h1 {
+        font-size: 1.8rem !important;
+    }
     @media (max-width: 768px) {
         .stApp h1 {
-            font-size: 1.8rem !important;   /* Smaller on phones */
+            font-size: 1.6rem !important;
         }
     }
     </style>
@@ -129,11 +132,14 @@ with col3:
         st.session_state.selected = set()
         st.rerun()
 
-# Splits list - smaller text via class
+# Splits list with added divider for clarity when stacked
 if st.session_state.splits:
     st.subheader("Splits")
     total_selected = 0.0
     for i, (dur, cum) in enumerate(st.session_state.splits):
+        if i > 0:
+            st.markdown('<div class="split-row-divider"></div>', unsafe_allow_html=True)  # Horizontal line between rows
+
         col_check, col_text = st.columns([1, 8])
         with col_check:
             checked = i in st.session_state.selected
