@@ -160,3 +160,15 @@ if st.session_state.splits:
 if st.session_state.running:
     time.sleep(0.1)
     st.rerun()
+
+st.markdown(
+    """
+    <hr style="margin-top: 3rem; border-top: 1px solid #ccc;">
+    <p style="text-align: center; font-size: 1rem; color: #555; margin-top: 1rem;">
+        <a href="https://cospiritsigns.com/" target="_blank" style="text-decoration: none; color: #0066cc; font-weight: bold;">
+            Need signs and bows? Visit Colorado Spirit Signs today
+        </a>
+    </p>
+    """,
+    unsafe_allow_html=True
+)
