@@ -14,26 +14,40 @@ st.markdown("""
     }
     .split-text {
         font-size: 1.2rem;  /* Splits list items */
-        font-weight: 500;   /* Slightly bolder for clarity */
-        padding-left: 8px;  /* Small indent so text doesn't touch checkbox/edge */
     }
     .sum-text {
         font-size: 1.2rem;
     }
+
+    /* Button styling */
     button {
         font-size: 1.2rem !important;
         min-height: 50px !important;
+        border-radius: 8px !important;  /* Optional: softer corners */
     }
 
-    /* Make checkboxes larger and easier to tap on mobile */
-    .stCheckbox input {
-        transform: scale(1.4);   /* Bigger checkbox */
+    /* Start button: green when not running */
+    button[kind="secondary"] {
+        background-color: #28a745 !important;  /* Bootstrap-like green */
+        color: white !important;
+        border: none !important;
     }
-    .stCheckbox {
-        margin-bottom: 0 !important;
+    button[kind="secondary"]:hover {
+        background-color: #218838 !important;  /* Darker green on hover */
+        color: white !important;
     }
 
-    /* Mobile/small screens: shrink text, add row separation */
+    /* Stop button: red when running (overrides primary) */
+    button[kind="primary"] {
+        background-color: #dc3545 !important;  /* Red */
+        color: white !important;
+        border: none !important;
+    }
+    button[kind="primary"]:hover {
+        background-color: #c82333 !important;  /* Darker red on hover */
+    }
+
+    /* Mobile/small screens: shrink text to reduce scrolling */
     @media (max-width: 768px) {
         .stApp {
             font-size: 14px;
@@ -42,8 +56,7 @@ st.markdown("""
             font-size: 3rem !important;
         }
         .split-text {
-            font-size: 1.0rem;
-            padding-left: 12px;
+            font-size: 0.95rem;
         }
         .sum-text {
             font-size: 1.2rem;
@@ -51,20 +64,22 @@ st.markdown("""
         button {
             font-size: 1.1rem !important;
         }
-        /* Add visual separation between stacked rows */
-        .split-row-divider {
-            border-top: 1px solid #ddd;
-            margin: 12px 0 8px 0;
+    }
+
+    /* Optional: Reduce padding/margins on small screens */
+    @media (max-width: 480px) {
+        .stApp > div:first-child {
+            padding: 1rem !important;
         }
     }
 
-    /* Title styling */
+    /* Target the main page title from st.title() */
     .stApp h1 {
         font-size: 1.8rem !important;
     }
     @media (max-width: 768px) {
         .stApp h1 {
-            font-size: 1.6rem !important;
+            font-size: 1.8rem !important;
         }
     }
     </style>
