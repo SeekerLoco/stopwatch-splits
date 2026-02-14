@@ -2,6 +2,8 @@ import streamlit as st
 import time
 from datetime import timedelta
 
+#Fix the stremlit stop button and icon
+
 # Inject responsive CSS (your existing + improvements)
 st.markdown("""
     <style>
@@ -100,6 +102,21 @@ if 'running' not in st.session_state:
     st.session_state.selected = set()  
 
 st.title("Stopwatch with Splits for Cheerleading Judging")
+st.title("Stopwatch with Splits for Cheerleading Judging")
+
+timer_placeholder = st.empty()  # <--- Add this
+
+@st.fragment(run_every=0.1)
+def update_timer():
+    if not st.session_state.running:
+        current_time = st.session_state.elapsed
+    else:
+        current_time = (time.time() - st.session_state.start_time) + st.session_state.elapsed
+    
+    timer_placeholder.markdown(
+        f"<h1 style='text-align: center;'>{format_time(current_time)}</h1>",
+        unsafe_allow_html=True
+    )
 
 # Timer display
 current_time = st.session_state.elapsed if not st.session_state.running else (time.time() - st.session_state.start_time) + st.session_state.elapsed
@@ -164,7 +181,8 @@ if st.session_state.splits:
         st.markdown(f"<div class='sum-text'>Selected splits total: **{format_time(total_selected)}**</div>", unsafe_allow_html=True)
     else:
         st.info("Tap checkboxes to select splits and sum them.")
-
+# At the end: Call the fragment once (it will auto-update)
+update_timer()
 # Auto-rerun for timer
 if st.session_state.running:
     time.sleep(0.1)
