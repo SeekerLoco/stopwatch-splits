@@ -25,7 +25,7 @@ st.markdown("""
 
     /* NEW: Make checkboxes larger for easier tapping */
     [data-testid="stCheckbox"] {
-        transform: scale(1.6);          /* 1.6× size - good balance; try 1.4 to 2.0 */
+        transform: scale(1.6);          /* 3.6× size - good balance; try 1.4 to 2.0 */
         transform-origin: left center;  /* Keeps alignment nice */
         margin-right: 12px !important;  /* Extra space so it doesn't crowd text */
     }
