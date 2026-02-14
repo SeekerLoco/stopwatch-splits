@@ -5,12 +5,12 @@ from datetime import timedelta
 # Inject responsive CSS (your existing + improvements)
 st.markdown("""
     <style>
-    /* Your existing base styles (keep these) */
+    /* Your existing styles - keeping them intact */
     .stApp {
-        font-size: 12px;
+        font-size: 12px;  /* Base body text */
     }
     h1 {
-        font-size: 4rem !important;
+        font-size: 4rem !important;  /* Timer */
     }
     .split-text {
         font-size: 1.2rem;
@@ -18,42 +18,32 @@ st.markdown("""
     .sum-text {
         font-size: 1.2rem;
     }
-
     button {
         font-size: 1.2rem !important;
         min-height: 50px !important;
-        border-radius: 8px !important;
     }
 
-    /* Make ONLY the Start/Stop button green when it's "Start" (secondary) */
-    div:has(> button:contains("Start")) button[kind="secondary"],
-    div:has(> button:contains("Start")) button {
-        background-color: #28a745 !important;  /* Green */
-        color: white !important;
-        border: none !important;
-    }
-    div:has(> button:contains("Start")) button:hover {
-        background-color: #218838 !important;  /* Darker green hover */
+    /* NEW: Make checkboxes larger for easier tapping */
+    [data-testid="stCheckbox"] {
+        transform: scale(1.6);          /* 1.6× size - good balance; try 1.4 to 2.0 */
+        transform-origin: left center;  /* Keeps alignment nice */
+        margin-right: 12px !important;  /* Extra space so it doesn't crowd text */
     }
 
-    /* Keep Stop red when running (primary) */
-    button[kind="primary"] {
-        background-color: #dc3545 !important;  /* Red */
-        color: white !important;
-        border: none !important;
-    }
-    button[kind="primary"]:hover {
-        background-color: #c82333 !important;
+    /* Make the checkbox container a bit taller to avoid clipping */
+    [data-testid="stCheckbox"] > div {
+        height: 32px !important;        /* Adjust if needed for your scale */
     }
 
-    /* Reset other secondary buttons (Split, Clear) to default Streamlit look */
-    button[kind="secondary"]:not(:has(> button:contains("Start"))) {
-        background-color: inherit !important;
-        color: inherit !important;
-    }
-
-    /* Your mobile styles (unchanged) */
+    /* Mobile: Even larger checkboxes on small screens for fat-finger friendliness */
     @media (max-width: 768px) {
+        [data-testid="stCheckbox"] {
+            transform: scale(1.8);      /* Slightly bigger on phones */
+            margin-right: 16px !important;
+        }
+        [data-testid="stCheckbox"] > div {
+            height: 40px !important;
+        }
         .stApp {
             font-size: 14px;
         }
