@@ -166,9 +166,9 @@ if st.session_state.splits:
         st.info("Tap checkboxes to select splits and sum them.")
 
 # Auto-rerun for timer
-if st.session_state.running:
-    time.sleep(0.1)
-    st.rerun()
+#if st.session_state.running:
+#    time.sleep(0.1)
+#    st.rerun()
 
 st.markdown(
     """
