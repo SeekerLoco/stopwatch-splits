@@ -22,7 +22,16 @@ st.markdown("""
         font-size: 1.2rem !important;
         min-height: 50px !important;
     }
-
+    /* Hide toolbar/status area*/
+    [data-testid="stToolbar"] {
+        visibility: hidden !important;
+    }
+    [data-testid="stStatusWidget"] {
+        visibility: hidden !important;
+    }
+    header {
+        visibility: hidden !important;  /* Hides the whole header if needed, but careful */
+    }
     /* NEW: Make checkboxes larger for easier tapping */
     [data-testid="stCheckbox"] {
         transform: scale(1.6);          /* 3.6× size - good balance; try 1.4 to 2.0 */
@@ -166,9 +175,9 @@ if st.session_state.splits:
         st.info("Tap checkboxes to select splits and sum them.")
 
 # Auto-rerun for timer
-#if st.session_state.running:
-#    time.sleep(0.1)
-#    st.rerun()
+if st.session_state.running:
+    time.sleep(0.1)
+    st.rerun()
 
 st.markdown(
     """
